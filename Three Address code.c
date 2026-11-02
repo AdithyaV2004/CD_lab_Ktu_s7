@@ -1,64 +1,82 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-char in[30];
-int k=1;
-void main()
+
+char in[30][10];
+int n = 0, k = 1;
+
+void process(char op)
 {
-    printf("enter the expression\n");
-    scanf("%s",in);
-    printf("%s\n",in);
-for(int i=0;in[i]!='\0';i++)
+    for (int i = 0; i < n; i++)
     {
-        if (in[i]=='/')
+        if (strcmp(in[i], (char[]){op, '\0'}) == 0)
         {
-            printf("t%d=%c%c%c\n",k,in[i-1],in[i],in[i+1]);
-            in[i-1] = '0' + k;
-            for (int j=i;in[j]!='\0';j++)
-                {
-                    in[j]=in[j+2];
-                }
-            k=k+1;
+            char temp[10], arg1[10], arg2[10];
+
+            strcpy(arg1, in[i-1]);
+            strcpy(arg2, in[i+1]);
+
+            sprintf(temp, "t%d", k);
+
+            printf("%s=%s%c%s\n", temp, arg1, op, arg2);
+
+            strcpy(in[i-1], temp);
+
+            for (int j = i; j < n-2; j++)
+                strcpy(in[j], in[j+2]);
+
+            n -= 2;
+            k++;
+            i--;
         }
     }
-for(int i=0;in[i]!='\0';i++)
+}
+
+int main()
+{
+    char lhs[10];
+    char exp[100];
+    int j;
+
+    printf("Enter the expression:\n");
+    scanf("%99s", exp);
+    strcpy(lhs, exp);
+    lhs[1] = '\0';
+
+    // Tokenize expression
+    for (int i = 0; exp[i] != '\0'; i++)
     {
-        if (in[i]=='*')
+        if (exp[i] == '+' || exp[i] == '-' ||
+            exp[i] == '*' || exp[i] == '/')
         {
-            printf("t%d=%c%c%c\n",k,in[i-1],in[i],in[i+1]);
-            in[i-1] = '0' + k;
-            for (int j=i;in[j]!='\0';j++)
-                {
-                    in[j]=in[j+2];
-                }
-            k=k+1;
+            in[n][0] = exp[i];
+            in[n][1] = '\0';
+            n++;
+        }
+        else
+        {
+            j = 0;
+
+            while (exp[i] != '\0' &&
+                   exp[i] != '+' && exp[i] != '-' &&
+                   exp[i] != '*' && exp[i] != '/')
+            {
+                in[n][j++] = exp[i++];
+            }
+
+            in[n][j] = '\0';
+            n++;
+            i--;
         }
     }
-for(int i=0;in[i]!='\0';i++)
-    {
-        if (in[i]=='+')
-        {
-            printf("t%d=%c%c%c\n",k,in[i-1],in[i],in[i+1]);
-            in[i-1] = '0' + k;
-            for (int j=i;in[j]!='\0';j++)
-                {
-                    in[j]=in[j+2];
-                }
-            k=k+1;
-        }
-    }
-for(int i=0;in[i]!='\0';i++)
-    {
-        if (in[i]=='-')
-        {
-            printf("t%d=%c%c%c\n",k,in[i-1],in[i],in[i+1]);
-            in[i-1] = '0' + k;
-            for (int j=i;in[j]!='\0';j++)
-                {
-                    in[j]=in[j+2];
-                }
-            k=k+1;
-        }
-    }
-printf("%c=t%d",in[0],k-1);
+
+    printf("\nThree Address Code:\n");
+
+    process('/');
+    process('*');
+    process('+');
+    process('-');
+
+    printf("%s=%s\n", lhs, in[0]);
+
+    return 0;
 }
