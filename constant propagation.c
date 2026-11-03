@@ -35,7 +35,7 @@ int main()
     scanf("%d", &n);
 
     printf("Enter each expression as: result operator operand1  operand2\n");
-    printf("For assignment, enter: result = value\n");
+    printf("For assignment, enter: result = value -\n");
 
     for (i = 0; i < n; i++) {
         scanf("%s %s %s %s",
