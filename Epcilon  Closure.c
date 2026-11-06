@@ -1,10 +1,11 @@
+
 #include <stdio.h>
 
 int main()
 {
     int nostate, notrans;
     int trans[30][3], eclos[10][20];
-    int visited[10], queue[100];
+    int visited[10], queue[100], size[10];
     int i, j, d, state;
     int front, rear, count;
     char c;
@@ -19,16 +20,15 @@ int main()
 
     for (i = 0; i < notrans; i++)
     {
-        scanf("%d %c %d",
-              &trans[i][0], &c, &trans[i][2]);
+        scanf("%d %c %d", &trans[i][0], &c, &trans[i][2]);
         trans[i][1] = c;
     }
 
     printf("\nEpsilon closure of states:\n");
 
-    for (i = 1; i <= nostate; i++)
+    for (i = 0; i < nostate; i++)
     {
-        for (j = 0; j < 10; j++)
+        for (j = 0; j < nostate; j++)
             visited[j] = 0;
 
         front = 0;
@@ -60,18 +60,18 @@ int main()
             }
         }
 
-        eclos[i][count] = 0;
+        size[i] = count;
     }
 
-    for (i = 1; i <= nostate; i++)
+    for (i = 0; i < nostate; i++)
     {
         printf("E-closure(q%d) = {", i);
 
-        for (j = 0; eclos[i][j] != 0; j++)
+        for (j = 0; j < size[i]; j++)
         {
             printf("q%d", eclos[i][j]);
 
-            if (eclos[i][j + 1] != 0)
+            if (j < size[i] - 1)
                 printf(", ");
         }
 
