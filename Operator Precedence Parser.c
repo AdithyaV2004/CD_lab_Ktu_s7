@@ -79,7 +79,7 @@ void parse()
 
         if (stack[top] == '$' && s[i] == '$')
         {
-            printf("\nValid Expression\n");
+            printf("Accept\n");
             return;
         }
 
@@ -90,7 +90,7 @@ void parse()
             (s[i+1] == '+' || s[i+1] == '-' ||
              s[i+1] == '*' || s[i+1] == '/'))
         {
-            printf("\nInvalid expression\n");
+            printf("Reject\n");
             return;
         }
 
@@ -99,7 +99,7 @@ void parse()
 
         if (pos1 == 4 || pos2 == 4)
         {
-            printf("\nInvalid expression\n");
+            printf("Reject\n");
             return;
         }
 
@@ -133,7 +133,7 @@ void parse()
         }
         else
         {
-            printf("\nInvalid expression\n");
+            printf("Reject\n");
             return;
         }
     }
